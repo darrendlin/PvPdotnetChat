@@ -1,0 +1,152 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".LoginActivity"
+    style="@style/AppTheme">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/league_of_legends_logo_transparent"
+        android:contentDescription="@string/logoContentDescription" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/imageView">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/textViewAccountLogin"
+            android:id="@+id/textViewAccountLogin"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal">
+
+        </View>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/radioButtonEUNE">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/textViewServer"
+                android:id="@+id/textViewServer" />
+
+            <info.hoang8f.android.segmented.SegmentedGroup
+                android:id="@+id/segmented2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radioButtonNA"
+                    android:id="@+id/radioButtonNA"
+                    style="@style/RadioButton"
+                    android:onClick="onClickServer" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radioButtonEUW"
+                    android:id="@+id/radioButtonEUW"
+                    style="@style/RadioButton"
+                    android:onClick="onClickServer" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radioButtonEUNE"
+                    android:id="@+id/radioButtonEUNE"
+                    style="@style/RadioButton"
+                    android:onClick="onClickServer" />
+
+            </info.hoang8f.android.segmented.SegmentedGroup>
+
+
+
+        </LinearLayout>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/textViewUsername"
+            android:id="@+id/textViewUsername" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextUsername"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/textViewPassword"
+            android:id="@+id/textViewPassword" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/editTextPassword"
+            android:singleLine="true" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/checkBoxRememberMe"
+                android:id="@+id/checkBoxRememberMe"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/buttonLogIn"
+                android:id="@+id/buttonLogIn"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:onClick="onClickLogIn" />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
