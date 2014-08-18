@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewIcon"
         android:src="@drawable/league_of_legends_logo_transparent"
         android:contentDescription="@string/logoContentDescription" />
 
@@ -21,7 +21,7 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/imageView">
+        android:layout_below="@+id/imageViewIcon">
 
         <TextView
             android:layout_width="wrap_content"
@@ -106,7 +106,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/editTextUsername"
             android:inputType="text"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:enabled="false" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -121,7 +122,8 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/editTextPassword"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:enabled="false" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -135,7 +137,8 @@
                 android:text="@string/checkBoxRememberMe"
                 android:id="@+id/checkBoxRememberMe"
                 android:layout_marginRight="20dp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginEnd="20dp"
+                android:enabled="false" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -145,7 +148,8 @@
                 android:id="@+id/buttonLogIn"
                 android:layout_marginLeft="20dp"
                 android:layout_marginStart="20dp"
-                android:onClick="onClickLogIn" />
+                android:onClick="onClickLogIn"
+                android:enabled="false" />
         </LinearLayout>
 
     </LinearLayout>

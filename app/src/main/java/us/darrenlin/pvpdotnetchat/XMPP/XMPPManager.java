@@ -1,4 +1,4 @@
-package us.darrenlin.pvpdotnetchat;
+package us.darrenlin.pvpdotnetchat.XMPP;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.Roster;
@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by Darren on 8/17/2014.
  */
-public class XmppManager {
+public class XMPPManager {
 
     private String server;
     private int port;
@@ -37,13 +37,14 @@ public class XmppManager {
             "  <gameStatus>outOfGame</gameStatus>\n" +
             "  <statusMsg>rip</statusMsg>\n" +
             "</body>";
+
     /**
      *
      * @param server "chat.na1.lol.riotgames.com"
      * @param port 5223
      * @param service "pvp.net"
      */
-    public XmppManager(String server, int port, String service) {
+    public XMPPManager(String server, int port, String service) {
         this.server = server;
         this.port = port;
         this.service = service;

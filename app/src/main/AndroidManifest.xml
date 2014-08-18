@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="us.darrenlin.pvpdotnetchat">
+    package="us.darrenlin.pvpdotnetchat" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -20,8 +20,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FriendList"
-            android:label="@string/title_activity_friend_list" >
+            android:name=".ConversationActivity"
+            android:label="@string/title_activity_conversation" >
         </activity>
     </application>
 

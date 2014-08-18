@@ -20,5 +20,14 @@
     <string name="radioButtonEUW">EUW</string>
     <string name="radioButtonEUNE">EUNE</string>
     <string name="logoContentDescription">League of Legends Logo</string>
+    <string name="textViewSummoner">Summoner</string>
+    <string name="textViewStatus">(status)</string>
+    <string name="summonerIcon">Summoner Icon</string>
+    <string name="availabilityIcon">Availability Icon</string>
+    <string name="title_activity_conversation">Conversation</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="textViewExpanded">-</string>
+    <string name="textViewGroupName">Group</string>
+    <string name="textViewGroupCount">(0/200)</string>
 
 </resources>

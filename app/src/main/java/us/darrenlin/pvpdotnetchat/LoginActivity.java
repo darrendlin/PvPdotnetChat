@@ -1,8 +1,11 @@
 package us.darrenlin.pvpdotnetchat;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -12,6 +15,9 @@ import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.SmackAndroid;
 import org.jivesoftware.smack.XMPPConnection;
 
+import us.darrenlin.pvpdotnetchat.XMPP.XMPPLogic;
+import us.darrenlin.pvpdotnetchat.XMPP.XMPPManager;
+
 
 public class LoginActivity extends Activity {
 
@@ -19,13 +25,47 @@ public class LoginActivity extends Activity {
     private final int PORT = 5223;
     private final String SERVICE = "pvp.net";
 
-    private XmppManager client;
+    private XMPPManager client;
     private XMPPConnection connection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        EditText username = (EditText)findViewById(R.id.editTextUsername);
+        username.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                findViewById(R.id.buttonLogIn).setEnabled(
+                        ((EditText)findViewById(R.id.editTextUsername)).getText().length() > 0 &&
+                                s.length() > 0);
+            }
+        });
+
+        EditText password = (EditText)findViewById(R.id.editTextPassword);
+        password.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                findViewById(R.id.buttonLogIn).setEnabled(
+                        ((EditText)findViewById(R.id.editTextUsername)).getText().length() > 0 &&
+                                s.length() > 0);
+            }
+        });
 
         // Init
         SmackAndroid.init(this);
@@ -60,11 +100,11 @@ public class LoginActivity extends Activity {
                 break;
             default:
                 host = "chat.na1.lol.riotgames.com";
-                Toast.makeText(LoginActivity.this, "Invalid server, defaulting to NA", Toast.LENGTH_SHORT);
+                Toast.makeText(LoginActivity.this, "Invalid server, defaulting to NA", Toast.LENGTH_SHORT).show();
                 ((RadioButton)findViewById(R.id.radioButtonNA)).setSelected(true);
         }
 
-        client = new XmppManager(host, PORT, SERVICE);
+        client = new XMPPManager(host, PORT, SERVICE);
         new EstablishConnection().execute(client);
     }
 
@@ -74,11 +114,10 @@ public class LoginActivity extends Activity {
      * Login is disabled while connection is establishing. It restores upon successfully or
      * unsuccessfully connecting to the League chat server.
      */
-    private class EstablishConnection extends AsyncTask<XmppManager, Integer, XMPPConnection> {
+    private class EstablishConnection extends AsyncTask<XMPPManager, Integer, XMPPConnection> {
 
         @Override
-        protected XMPPConnection doInBackground(XmppManager... params) {
-
+        protected XMPPConnection doInBackground(XMPPManager... params) {
             connection = (params.length > 0 ? params[0].connect() : client.connect());
 
             return connection;
@@ -91,11 +130,20 @@ public class LoginActivity extends Activity {
 
         @Override
         protected void onPostExecute(XMPPConnection connection) {
-            if (connection != null) {
+
+            boolean connected = connection != null && connection.isConnected();
+
+            if (connected) {
+                XMPPLogic.getInstance().setConnection(connection);
                 Toast.makeText(LoginActivity.this, "Connected to server.", Toast.LENGTH_SHORT).show();
             } else {
-               Toast.makeText(LoginActivity.this, "Failed to connect to server.", Toast.LENGTH_SHORT).show();
+                XMPPLogic.getInstance().setConnection(null);
+                Toast.makeText(LoginActivity.this, "Failed to connect to server.", Toast.LENGTH_SHORT).show();
             }
+
+            findViewById(R.id.editTextUsername).setEnabled(connected);
+            findViewById(R.id.editTextPassword).setEnabled(connected);
+            findViewById(R.id.checkBoxRememberMe).setEnabled(connected);
         }
     }
 
@@ -112,9 +160,13 @@ public class LoginActivity extends Activity {
 
         @Override
         protected void onPostExecute(Roster roster) {
+
             if (connection.isAuthenticated() && roster != null) {
-                System.out.println("logged in as " + connection.getUser());
-                Toast.makeText(LoginActivity.this, "Logged in as " + connection.getUser(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(LoginActivity.this, ConversationActivity.class);
+                startActivity(intent);
+
             } else {
                 System.out.println("failed to log in, authenticated: " + connection.isAuthenticated());
                 Toast.makeText(LoginActivity.this, "Failed to log in. Please check username and password.", Toast.LENGTH_LONG).show();
