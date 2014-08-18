@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     tools:context="us.darrenlin.pvpdotnetchat.ConversationActivity">
 
     <FrameLayout
@@ -21,7 +21,6 @@
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_selector"
         android:background="@color/list_background"
-        tools:context="us.darrenlin.pvpdotnetchat.NavigationDrawerFragment"
         android:id="@+id/list_slidermenu" />
 
 </android.support.v4.widget.DrawerLayout>

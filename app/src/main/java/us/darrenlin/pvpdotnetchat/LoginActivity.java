@@ -101,7 +101,7 @@ public class LoginActivity extends Activity {
             default:
                 host = "chat.na1.lol.riotgames.com";
                 Toast.makeText(LoginActivity.this, "Invalid server, defaulting to NA", Toast.LENGTH_SHORT).show();
-                ((RadioButton)findViewById(R.id.radioButtonNA)).setSelected(true);
+                findViewById(R.id.radioButtonNA).setSelected(true);
         }
 
         client = new XMPPManager(host, PORT, SERVICE);

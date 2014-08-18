@@ -5,7 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,14 +19,32 @@ import us.darrenlin.pvpdotnetchat.R;
 /**
  * Created by Darren on 8/17/2014.
  */
-public class FriendListDrawerAdapter extends BaseAdapter{
+public class FriendListDrawerAdapter extends ArrayAdapter<FriendListItem> {
 
     private Context context;
     private ArrayList<FriendListItem> friendListItems;
 
+    private LayoutInflater inflater;
+
+    private enum RowType {
+        FRIEND, GROUP
+    }
+
     public FriendListDrawerAdapter(Context context, ArrayList<FriendListItem> friendListItems) {
+        super(context, 0, friendListItems);
         this.context = context;
         this.friendListItems = friendListItems;
+        inflater = (LayoutInflater)context.getSystemService((Activity.LAYOUT_INFLATER_SERVICE));
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return RowType.values().length;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return getItem(position).isHeader() ? 0 : 1;
     }
 
     @Override
@@ -35,7 +53,7 @@ public class FriendListDrawerAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int position) {
+    public FriendListItem getItem(int position) {
         return friendListItems.get(position);
     }
 
@@ -44,37 +62,76 @@ public class FriendListDrawerAdapter extends BaseAdapter{
         return position;
     }
 
+    // Very ugly
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService((Activity.LAYOUT_INFLATER_SERVICE));
 
-            if (friendListItems.get(position) instanceof FriendListDrawerItem) {
-                convertView = inflater.inflate(R.layout.friend_list_item, null);
+        View view = convertView;
+        final FriendListItem row = friendListItems.get(position);
 
-                ImageView summonerIcon = (ImageView)convertView.findViewById(R.id.imageViewIcon);
-                TextView summonerName = (TextView)convertView.findViewById(R.id.textViewName);
-                TextView summonerStatus = (TextView)convertView.findViewById(R.id.textViewStatus);
-                ImageView summonerStatusIcon = (ImageView)convertView.findViewById(R.id.imageViewStatus);
+        ViewItemHolder itemHolder = new ViewItemHolder();
+        ViewHeaderHolder headerHolder = new ViewHeaderHolder();
 
-                summonerIcon.setImageResource(((FriendListDrawerItem)friendListItems.get(position)).getSummonerIcon());
-                summonerName.setText(((FriendListDrawerItem)friendListItems.get(position)).getSummonerName());
-                summonerStatus.setText(((FriendListDrawerItem)friendListItems.get(position)).getStatus());
-                summonerStatusIcon.setImageResource(((FriendListDrawerItem)friendListItems.get(position)).getAvailabilityIcon());
+        if (view == null) {
 
-            } else if (friendListItems.get(position) instanceof FriendListDrawerGroupItem) {
-                convertView = inflater.inflate(R.layout.friend_list_group_item, null);
+            if (!row.isHeader()) {
+                view = inflater.inflate(R.layout.friend_list_item, null);
 
-                TextView expand = (TextView)convertView.findViewById(R.id.textViewExpandable);
-                TextView group = (TextView)convertView.findViewById(R.id.textViewGroupName);
-                TextView people = (TextView)convertView.findViewById(R.id.textViewGroupCount);
+                itemHolder.icon = (ImageView)view.findViewById(R.id.imageViewIcon);
+                itemHolder.name = (TextView)view.findViewById(R.id.textViewName);
+                itemHolder.status = (TextView)view.findViewById(R.id.textViewStatus);
+                itemHolder.statusIcon = (ImageView)view.findViewById(R.id.imageViewStatus);
 
-                expand.setText(((FriendListDrawerGroupItem)friendListItems.get(position)).getExpand());
-                group.setText(((FriendListDrawerGroupItem)friendListItems.get(position)).getGroup());
-                people.setText(((FriendListDrawerGroupItem)friendListItems.get(position)).getExpand());
+                view.setTag(itemHolder);
+
+            } else {
+                view = inflater.inflate(R.layout.friend_list_group_item, null);
+
+                headerHolder.expand = (TextView)view.findViewById(R.id.textViewExpandable);
+                headerHolder.group = (TextView)view.findViewById(R.id.textViewGroupName);
+                headerHolder.people = (TextView)view.findViewById(R.id.textViewGroupCount);
+
+                view.setTag(headerHolder);
+            }
+
+        } else {
+            if (!row.isHeader()) {
+                itemHolder = (ViewItemHolder)view.getTag();
+            } else {
+                headerHolder = (ViewHeaderHolder)view.getTag();
             }
         }
 
-        return convertView;
+        if (row != null) {
+            if (!row.isHeader()) {
+                FriendListDrawerItem item = (FriendListDrawerItem)row;
+
+                itemHolder.icon.setImageResource(item.getSummonerIcon());
+                itemHolder.name.setText(item.getSummonerName());
+                itemHolder.status.setText(item.getStatus());
+                itemHolder.statusIcon.setImageResource(item.getAvailabilityIcon());
+            } else {
+                FriendListDrawerGroupItem item = (FriendListDrawerGroupItem)row;
+
+                headerHolder.expand.setText(item.getExpand());
+                headerHolder.group.setText(item.getGroup());
+                headerHolder.people.setText(item.getExpand());
+            }
+        }
+
+        return view;
+    }
+
+    private class ViewItemHolder {
+        protected ImageView icon;
+        protected TextView name;
+        protected TextView status;
+        protected ImageView statusIcon;
+    }
+
+    private class ViewHeaderHolder {
+        protected TextView expand;
+        protected TextView group;
+        protected TextView people;
     }
 }

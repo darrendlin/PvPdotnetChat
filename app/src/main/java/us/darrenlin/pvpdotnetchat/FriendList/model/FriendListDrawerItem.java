@@ -56,4 +56,9 @@ public class FriendListDrawerItem extends FriendListItem {
     public void setAvailabilityIcon(int availabilityIcon) {
         this.availabilityIcon = availabilityIcon;
     }
+
+    @Override
+    public boolean isHeader() {
+        return false;
+    }
 }

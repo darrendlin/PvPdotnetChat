@@ -42,4 +42,9 @@ public class FriendListDrawerGroupItem extends FriendListItem {
     public void setExpand(String expand) {
         this.expand = expand;
     }
+
+    @Override
+    public boolean isHeader() {
+        return true;
+    }
 }
