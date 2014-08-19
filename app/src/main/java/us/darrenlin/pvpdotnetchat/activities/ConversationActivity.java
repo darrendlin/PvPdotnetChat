@@ -33,7 +33,9 @@ public class ConversationActivity extends Activity {
     private DrawerLayout drawerLayout;
     private ListView drawerList;
 
-    private ArrayList<FriendListItem> friendListItems = new ArrayList<FriendListItem>();
+    private Roster roster;
+
+    private FriendListDrawerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,59 +43,56 @@ public class ConversationActivity extends Activity {
         setContentView(R.layout.activity_conversation);
 
         XMPPConnection connection = XMPPLogic.getInstance().getConnection();
-        final Roster roster = connection.getRoster();
+        roster = connection.getRoster();
 
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerList = (ListView)findViewById(R.id.list_slidermenu);
 
-        final FriendListDrawerAdapter adapter = new FriendListDrawerAdapter(getApplicationContext(), friendListItems);
+        adapter = new FriendListDrawerAdapter(this, getFriendList());
         drawerList.setAdapter(adapter);
 
-        friendListItems = getFriendList(roster);
         adapter.notifyDataSetChanged();
+
+        drawerLayout.requestLayout();
 
         roster.addRosterListener(new RosterListener() {
 
             @Override
             public void entriesAdded(Collection<String> strings) {
-                friendListItems = getFriendList(roster);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.notifyDataSetChanged();
+                        adapter.updateFriendList(getFriendList());
                     }
                 });
             }
 
             @Override
             public void entriesUpdated(Collection<String> strings) {
-                friendListItems = getFriendList(roster);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.notifyDataSetChanged();
+                        adapter.updateFriendList(getFriendList());
                     }
                 });
             }
 
             @Override
             public void entriesDeleted(Collection<String> strings) {
-                friendListItems = getFriendList(roster);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.notifyDataSetChanged();
+                        adapter.updateFriendList(getFriendList());
                     }
                 });
             }
 
             @Override
             public void presenceChanged(Presence presence) {
-                friendListItems = getFriendList(roster);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.notifyDataSetChanged();
+                        adapter.updateFriendList(getFriendList());
                     }
                 });
             }
@@ -109,19 +108,27 @@ public class ConversationActivity extends Activity {
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                drawerLayout.closeDrawer(drawerList);
+                if (view.getTag() instanceof FriendListDrawerAdapter.ViewHeaderHolder) {
+                    FriendListDrawerAdapter.ViewHeaderHolder h = new FriendListDrawerAdapter.ViewHeaderHolder((FriendListDrawerAdapter.ViewHeaderHolder)view.getTag());
+                    h.expand.setText("+");
+                    view.setTag(h);
+                }
+                else {
+                    drawerLayout.closeDrawer(drawerList);
+                    //TODO: open up new fragment (or something) for chat window
+                }
             }
         });
     }
 
-    private ArrayList<FriendListItem> getFriendList(Roster roster) {
+    private ArrayList<FriendListItem> getFriendList() {
         ArrayList<FriendListItem> friends = new ArrayList<FriendListItem>();
         for (RosterGroup group : roster.getGroups()) {
-            friendListItems.add(new FriendListDrawerGroupItem("-", getGroupName(group), getOnlineCount(roster, group)));
+            friends.add(new FriendListDrawerGroupItem("-", getGroupName(group), getOnlineCount(roster, group)));
             for (RosterEntry entry : group.getEntries()) {
                 Element person = getPersonInfo(roster, entry);
                 if (person != null) { // TODO: show offline friends
-                    friendListItems.add(new FriendListDrawerItem(entry.getName(), getPersonInfoTag(person, "statusMsg"), 0, getPersonAvailability(person)));
+                    friends.add(new FriendListDrawerItem(entry.getName(), getPersonInfoTag(person, "statusMsg"), 0, getPersonAvailability(roster, entry, person)));
                 }
             }
         }
@@ -157,10 +164,21 @@ public class ConversationActivity extends Activity {
         return "";
     }
 
-    private int getPersonAvailability(Element e) {
+    private int getPersonAvailability(Roster roster, RosterEntry entry, Element e) {
         String s = getPersonInfoTag(e, "gameStatus");
         if (s.equalsIgnoreCase("outOfGame")) {
-            return R.drawable.available;
+            switch (roster.getPresence(entry.getUser()).getMode()) {
+                case chat:
+                    return R.drawable.available;
+                case away:
+                    return R.drawable.away;
+                case dnd:
+                    return R.drawable.busy;
+                case xa:
+                    return R.drawable.busy;
+                default:
+                    return R.drawable.unavailable;
+            }
         } else if (s.equalsIgnoreCase("inQueue")) {
             return R.drawable.away;
         } else if (s.equalsIgnoreCase("spectating")) {

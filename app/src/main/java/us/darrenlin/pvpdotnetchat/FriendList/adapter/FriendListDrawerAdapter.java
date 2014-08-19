@@ -122,16 +122,44 @@ public class FriendListDrawerAdapter extends ArrayAdapter<FriendListItem> {
         return view;
     }
 
-    private class ViewItemHolder {
-        protected ImageView icon;
-        protected TextView name;
-        protected TextView status;
-        protected ImageView statusIcon;
+    public void updateFriendList(ArrayList<FriendListItem> friendListItems) {
+        this.friendListItems = friendListItems;
+
+        notifyDataSetChanged();
     }
 
-    private class ViewHeaderHolder {
-        protected TextView expand;
-        protected TextView group;
-        protected TextView people;
+    public static class ViewItemHolder {
+        public ViewItemHolder() {
+            icon = null;
+            name = null;
+            status = null;
+            statusIcon = null;
+        }
+        public ViewItemHolder(ViewItemHolder h) {
+            icon = h.icon;
+            name = h.name;
+            status = h.status;
+            statusIcon = h.statusIcon;
+        }
+        public ImageView icon;
+        public TextView name;
+        public TextView status;
+        public ImageView statusIcon;
+    }
+
+    public static class ViewHeaderHolder {
+        public ViewHeaderHolder() {
+            expand = null;
+            group = null;
+            people = null;
+        }
+        public ViewHeaderHolder(ViewHeaderHolder h) {
+            expand = h.expand;
+            group = h.group;
+            people = h.people;
+        }
+        public TextView expand;
+        public TextView group;
+        public TextView people;
     }
 }

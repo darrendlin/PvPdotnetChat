@@ -6,10 +6,10 @@
     <color name="list_divider">#272727</color>
 
     <color name="list_group_background">#ff0d2745</color>
-    <color name="list_group_background_pressed">#ff0e4d71</color>
+    <color name="list_group_background_pressed">#ff1678ab</color>
 
     <color name="list_background">#ff041423</color>
-    <color name="list_background_pressed">#ff046488</color>
+    <color name="list_background_pressed">#ff04a1d4</color>
 
     <color name="counter_text_bg">#626262</color>
     <color name="counter_text_color">#c5c4c4</color>
