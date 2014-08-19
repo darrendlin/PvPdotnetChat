@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    tools:context="us.darrenlin.pvpdotnetchat.ConversationActivity">
+    android:layout_height="match_parent"
+    tools:context="us.darrenlin.pvpdotnetchat.activities.ConversationActivity">
 
     <FrameLayout
         android:id="@+id/container"
@@ -20,7 +20,7 @@
         android:divider="@color/list_divider"
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_selector"
-        android:background="@color/list_background"
+        android:background="#fffcfcfc"
         android:id="@+id/list_slidermenu" />
 
 </android.support.v4.widget.DrawerLayout>

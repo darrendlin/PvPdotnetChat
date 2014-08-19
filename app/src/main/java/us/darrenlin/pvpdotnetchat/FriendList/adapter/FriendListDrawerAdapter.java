@@ -115,7 +115,7 @@ public class FriendListDrawerAdapter extends ArrayAdapter<FriendListItem> {
 
                 headerHolder.expand.setText(item.getExpand());
                 headerHolder.group.setText(item.getGroup());
-                headerHolder.people.setText(item.getExpand());
+                headerHolder.people.setText(item.getPeople());
             }
         }
 

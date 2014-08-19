@@ -1,4 +1,4 @@
-package us.darrenlin.pvpdotnetchat;
+package us.darrenlin.pvpdotnetchat.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.SmackAndroid;
 import org.jivesoftware.smack.XMPPConnection;
 
+import us.darrenlin.pvpdotnetchat.R;
 import us.darrenlin.pvpdotnetchat.XMPP.XMPPLogic;
 import us.darrenlin.pvpdotnetchat.XMPP.XMPPManager;
 
@@ -118,8 +119,8 @@ public class LoginActivity extends Activity {
 
         @Override
         protected XMPPConnection doInBackground(XMPPManager... params) {
+            // Connect to host
             connection = (params.length > 0 ? params[0].connect() : client.connect());
-
             return connection;
         }
 
@@ -163,12 +164,9 @@ public class LoginActivity extends Activity {
 
             if (connection.isAuthenticated() && roster != null) {
                 Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(LoginActivity.this, ConversationActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(LoginActivity.this, ConversationActivity.class));
 
             } else {
-                System.out.println("failed to log in, authenticated: " + connection.isAuthenticated());
                 Toast.makeText(LoginActivity.this, "Failed to log in. Please check username and password.", Toast.LENGTH_LONG).show();
             }
         }

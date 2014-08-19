@@ -93,11 +93,7 @@ public class XMPPManager {
         if (username.isEmpty() || password.isEmpty())
             throw new IllegalArgumentException();
 
-        System.out.println("counter " + connection.getConnectionCounter());
-        System.out.println("connection id " + connection.getConnectionID());
-
         try {
-            System.out.println("logging in: " + username + ", " + password);
             connection.login(username, password);
             return connection.getRoster();
         } catch (XMPPException e) {

@@ -10,6 +10,7 @@
     style="@style/AppTheme">
 
 
+    <!-- League Logo -->
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +39,6 @@
             android:background="@android:color/darker_gray"
             android:layout_marginBottom="20dp"
             android:layout_gravity="center_horizontal">
-
         </View>
 
         <LinearLayout
@@ -55,6 +55,7 @@
                 android:text="@string/textViewServer"
                 android:id="@+id/textViewServer" />
 
+            <!-- Server Select -->
             <info.hoang8f.android.segmented.SegmentedGroup
                 android:id="@+id/segmented2"
                 android:layout_width="wrap_content"
@@ -62,6 +63,7 @@
                 android:layout_margin="10dp"
                 android:orientation="horizontal">
 
+                <!-- NA -->
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,6 +72,7 @@
                     style="@style/RadioButton"
                     android:onClick="onClickServer" />
 
+                <!-- EUW -->
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,6 +81,7 @@
                     style="@style/RadioButton"
                     android:onClick="onClickServer" />
 
+                <!-- EUNE -->
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -87,12 +91,7 @@
                     android:onClick="onClickServer" />
 
             </info.hoang8f.android.segmented.SegmentedGroup>
-
-
-
         </LinearLayout>
-
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -107,7 +106,8 @@
             android:id="@+id/editTextUsername"
             android:inputType="text"
             android:singleLine="true"
-            android:enabled="false" />
+            android:enabled="false"
+            android:hint="@string/textViewUsername" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -123,7 +123,9 @@
             android:ems="10"
             android:id="@+id/editTextPassword"
             android:singleLine="true"
-            android:enabled="false" />
+            android:enabled="false"
+            android:hint="@string/textViewPassword"
+            android:imeOptions="actionDone" />
 
         <LinearLayout
             android:orientation="horizontal"

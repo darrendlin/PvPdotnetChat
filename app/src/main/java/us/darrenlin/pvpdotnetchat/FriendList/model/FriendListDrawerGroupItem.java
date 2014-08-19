@@ -13,7 +13,7 @@ public class FriendListDrawerGroupItem extends FriendListItem {
         this("-", "Group", "(0/200)");
     }
 
-    public FriendListDrawerGroupItem(String expand, String group,String people) {
+    public FriendListDrawerGroupItem(String expand, String group, String people) {
         this.expand = expand;
         this.group = group;
         this.people = people;
